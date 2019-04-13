@@ -22,7 +22,7 @@
  *   '',  'bb'  => 'bb'
  */
 function concatenateStrings(value1, value2) {
-    throw new Error('Not implemented');
+    return value1 + value2;
 }
 
 
@@ -38,7 +38,7 @@ function concatenateStrings(value1, value2) {
  *   ''      => 0
  */
 function getStringLength(value) {
-    throw new Error('Not implemented');
+    return value.length;
 }
 
 /**
@@ -55,7 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-    throw new Error('Not implemented');
+    return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -69,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    throw new Error('Not implemented');
+    return value.slice(7).slice(0, -1);
 }
 
 
@@ -84,7 +84,7 @@ function extractNameFromTemplate(value) {
  *   'cat'       => 'c'
  */
 function getFirstChar(value) {
-    throw new Error('Not implemented');
+    return value[0];
 }
 
 /**
@@ -99,7 +99,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    throw new Error('Not implemented');
+    return value.trim();
 }
 
 /**
@@ -114,7 +114,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    throw new Error('Not implemented');
+    return value.repeat(count);
 }
 
 /**
@@ -130,7 +130,8 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    throw new Error('Not implemented');
+    str = str.replace(value, '');
+    return str;
 }
 
 /**
@@ -145,7 +146,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+    return str.replace(/[<>]/g, '');
 }
 
 
@@ -160,7 +161,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    throw new Error('Not implemented');
+    return str.toUpperCase();
 }
 
 /**
@@ -174,7 +175,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    throw new Error('Not implemented');
+    return str.split(';');
 }
 
 /**
@@ -201,7 +202,16 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+    let btwn = width - 2;
+    let repeat = height - 2;
+    let res = '';
+    res += '┌'+ ('─'.repeat(btwn)) + '┐\n';
+    while(repeat) {
+        res += '│' + (' '.repeat(btwn)) + '│' + '\n';
+        repeat--;
+    }
+    res += '└'+ ('─'.repeat(btwn)) + '┘\n';
+    return res;
 }
 
 
@@ -221,7 +231,24 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    let res = '';
+    let posInAlph;
+    let newPos;
+    const keys = str.split('').map(char => char.charCodeAt(0));
+    keys.forEach(key => {
+        if(key <= 90 && key >= 65) {
+            posInAlph = key - 65;
+            newPos = (26 + posInAlph - 13) % 26;
+            res += String.fromCharCode(newPos + 65);
+        } else if (key <= 122 && key >= 97) {
+            posInAlph = key - 97;
+            newPos = (26 + posInAlph - 13) % 26;
+            res += String.fromCharCode(newPos + 97);
+        } else {
+            res += String.fromCharCode(key);
+        }
+    });
+    return res;
 }
 
 /**
@@ -238,7 +265,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    return (typeof value === 'string') || (value instanceof String);
 }
 
 
@@ -267,7 +294,46 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    throw new Error('Not implemented');
+    let offset;
+    switch(value.slice(-1)) {
+        case '♣':
+            offset = 0;
+            break;
+        case '♦':
+            offset = 1;
+            break;
+        case '♥':
+            offset = 2;
+            break;
+        case '♠':
+            offset = 3;
+            break;
+        default:
+            throw new Error('smth went wrong');
+    }
+    let pos;
+    let num = value.slice(0, -1);
+    if(!isNaN(+num)) {
+        pos = +num - 1;
+    } else {
+        switch(num) {
+            case 'A':
+                pos = 0;
+                break;
+            case 'J':
+                pos = 10;
+                break;
+            case 'Q':
+                pos = 11;
+                break;
+            case 'K':
+                pos = 12;
+                break;
+            default:
+                throw new Error('smth went wrong');
+        }
+    }
+    return (13 * offset) + pos;
 }
 
 
